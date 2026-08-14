@@ -3,44 +3,38 @@
 ## Project Overview
 This is a Kotlin Multiplatform (Compose Multiplatform) educational visualization tool inspired by the "human-formation computer" from Liu Cixin's *The Three-Body Problem*.
 
-Goal: Visually simulate how a computer works using soldiers raising black/white flags (0/1) and cavalry delivering data, starting with a clear 4-bit adder demonstration.
+Goal: Visually simulate how a computer works using soldiers raising black/white flags (0/1) and cavalry delivering data. The first demo is a 4-bit ripple-carry adder laid out as four 1-bit full-adders in space.
 
-## Current Status (v0.2)
-- 4-bit ripple-carry adder microcode + FormationMachine in `commonMain`
-- Desktop / Browser UI: left micro-ops, middle gates, right register soldiers
-- Input 0–15 (or binary) → Start loads A/B flags → Step / Play / Pause
+## Current Status (v0.3)
+- Spatial parallel model (no microcode): one Step = one tick for every soldier and cavalry
+- Layout: A/B data on top, four full-adders in the middle, Sum data at the bottom
+- Cavalry carry A/B into each adder and write Sum back to the data row
+- Gate soldiers watch inputs every tick (XOR / AND / OR groups)
 
 ## Core Design Principles
-1. **Software von Neumann style** (preferred) rather than pure spatial hardware parallelism from the novel.
-2. Visual language must stay faithful to *Three-Body*:
-   - Soldiers hold black flag = 1, white flag = 0
-   - Cavalry act as data messengers / bus
-   - Gate soldiers (XOR, AND, OR, etc.) perform logic
-3. Prioritize clarity of the computation process over pure spectacle.
-4. Make the execution step-by-step controllable (play / pause / step / speed).
+1. **Spatial hardware parallelism** as in the novel — not a von Neumann micro-program.
+2. Visual language stays faithful to *Three-Body*:
+   - Black flag = 1, white flag = 0
+   - Cavalry are messengers
+   - Gate soldiers work in groups of three (in1, in2, operator)
+3. Clarity of the parallel process over spectacle.
+4. Execution is tick-based and controllable (play / pause / step / speed).
 
 ## Architecture Preferences
 - Shared logic in `commonMain`
-- UI & animation in Compose Multiplatform
-- Clear separation:
-  - Data model (Bits, Registers, Gates)
-  - Micro-instruction system
-  - Visual components (Soldier, Cavalry, Flag, InstructionList)
-- Start with 4-bit ripple-carry adder
+- UI in Compose Multiplatform only reads snapshots
+- Names: `Bit`, `Register`, `Cavalry`, `Soldier`, `AdderState`, `FormationMachine`
+- Four 1-bit full-adders, bit3 left … bit0 right; Cin[0] is fixed 0
 
 ## Naming Conventions
-- Use English for code identifiers
-- Chinese is welcome in UI strings and comments
-- Prefer clear names: `Bit`, `Register`, `Gate`, `MicroOp`, `Cavalry`, `Soldier`
+- English identifiers
+- Chinese welcome in UI strings and comments
 
 ## Important Constraints
-- Do not over-engineer the first version
-- Prefer readable step-by-step microcode over highly optimized parallel simulation
-- Keep the visual layout simple and educational
+- Do not over-engineer
+- One tick = everyone looks at the current flags, then everyone updates
+- Cavalry move along discrete waypoints (one hop per tick)
 
 ## Next Priorities
-1. Define core data models
-2. Define micro-instruction set
-3. Implement 4-bit addition microcode
-4. Build basic static visual layout (registers + gates)
-5. Add cavalry animation and step execution
+1. Keep the 4-bit adder playable and readable
+2. Optional later: smoother cavalry interpolation, more operations

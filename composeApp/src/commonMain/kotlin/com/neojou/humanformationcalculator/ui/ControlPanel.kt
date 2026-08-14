@@ -83,7 +83,7 @@ fun ControlPanel(
                 )
             }
             Text(
-                text = status.ifBlank { "輸入 0–15 或四位二進位（如 0111、0b0101），按開始載入 A / B。" },
+                text = status.ifBlank { "輸入 0–15 或四位二進位（如 0111、0b0101）。開始後騎兵送 A／B，每步是一次全體 tick。" },
                 style = MaterialTheme.typography.bodyMedium,
             )
         }

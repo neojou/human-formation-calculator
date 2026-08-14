@@ -1,2 +1,2 @@
 
-<composeApp_commonMain>:#com.neojou.humanformationcalculator:(com.neojou.humanformationcalculator.core:1com.neojou.humanformationcalculator.core.programs:&com.neojou.humanformationcalculator.ui:com.neojou.tools:com.neojou.tools.ui.menu
+<composeApp_commonMain>:#com.neojou.humanformationcalculator:(com.neojou.humanformationcalculator.core:&com.neojou.humanformationcalculator.ui:com.neojou.tools:com.neojou.tools.ui.menu

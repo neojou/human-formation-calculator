@@ -2,7 +2,6 @@ package com.neojou.humanformationcalculator.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -82,38 +81,10 @@ fun FormationScreen(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxSize().padding(10.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        Row(
-            modifier = Modifier.weight(1f),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-        ) {
-            InstructionListPanel(
-                labels = snap.program,
-                highlightIndex = snap.highlightIndex,
-                modifier = Modifier.weight(0.30f),
-            )
-            GateYardPanel(
-                xor = snap.xor,
-                and = snap.and,
-                or = snap.or,
-                not = snap.not,
-                activeGate = snap.activeGate,
-                modifier = Modifier.weight(0.40f),
-            )
-            RegisterFieldPanel(
-                a = snap.a,
-                b = snap.b,
-                sum = snap.sum,
-                aValue = snap.aValue,
-                bValue = snap.bValue,
-                sumValue = snap.sumValue,
-                cin = snap.cin,
-                cout = snap.cout,
-                temp1 = snap.temp1,
-                carry1 = snap.carry1,
-                carry2 = snap.carry2,
-                modifier = Modifier.weight(0.30f),
-            )
-        }
+        FormationField(
+            snapshot = snap,
+            modifier = Modifier.weight(1f).fillMaxSize(),
+        )
         ControlPanel(
             aText = controller.aText,
             bText = controller.bText,

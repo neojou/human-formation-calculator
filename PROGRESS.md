@@ -1,23 +1,22 @@
-# Progress — Human-Formation Calculator v0.2
+# Progress — Human-Formation Calculator v0.3
 
 ## 目前狀態
 
-**第一版可玩（v0.2）已完成。** Desktop / Wasm 編譯通過；`desktopTest` 含 16×16 加法與輸入解析皆通過。
+**空間並行人列加法已可玩。** Desktop / Wasm 編譯通過；`desktopTest`（含 16×16 與「單 tick 不會做完全部」）通過。
 
 ## 已完成
 
-- [x] 閱讀 `AGENTS.md`、`DESIGN.md`
-- [x] 產出 `PLAN.md`
-- [x] Phase 1：`Bit` / `Register` / `LogicGate` / `MicroOp` / `FormationMachine` / 4-bit 漣波進位微程式
-- [x] Phase 1 測試：`7+5=12`、`15+1` 進位、0–15 全組合、`parseNibble`
-- [x] Phase 2：左微指令 / 中門士兵 / 右資料士兵
-- [x] Phase 3：開始載入 A/B、Step、Play/Pause、速度
+- [x] 依手稿重寫 `DESIGN.md` / `AGENTS.md`
+- [x] 拿掉微指令機（`MicroOp`、左欄指令列表、共用單一 XOR/AND/OR）
+- [x] 四個 1-bit full-adder 橫向串接；每 tick 全體並行
+- [x] 騎兵送 A／B、Sum 變色後抄回下方資料區再回來待命
+- [x] Cin 看右邊 adder 的 Cout；bit0 Cin 固定白旗
+- [x] 畫面：上 A/B、中運算、下 Sum；Step / Play / Pause
 
-## 下一步（v0.2 之後，非本版範圍）
+## 下一步（非本版）
 
-- 騎兵路徑動畫
-- 減法或其他運算微程式
-- 更細的「這一步搬了哪個士兵」高亮
+- 騎兵路徑做連續插值
+- 加減以外的運算陣
 
 ## 怎麼測
 
@@ -25,14 +24,12 @@
 ./gradlew :composeApp:run
 ```
 
-1. 預設 A=7、B=5，按「開始」→ 右側 A 應為 `0111`、B 為 `0101`
-2. 按 Step，看左側高亮下移、中間門旗變化
-3. 按 Play 跑完 → Sum=12
-4. 改輸入 `0111` 與 `0b0101`，應等同 7+5
-5. 試 15+1 → Sum=0、Cout=1
+1. 預設 7 與 5，按「開始」→ 上方 A/B 舉旗，運算區仍是白旗，騎兵出發
+2. Step：每步所有人動一次；門組橢圓內三個士兵會一起變
+3. Play 跑完 → 下方 Sum=12
+4. 15+1 → Sum=0、Cout=1
 
 ## 問題與決策
 
-- v0.2 不做騎兵移動動畫；MOVE 即時寫入，活動中的門會高亮。
-- `10` 當十進位 10；剛好 4 位 `0/1` 或 `0b` 前綴才當二進位。
-- 本環境沒有獨立的 `/goal` 工具介面，已在同一輪依計畫實作到可玩定義。
+- 同一 tick 先看舊旗再一起改，進位會一格一格漣波上去。
+- 騎兵每 tick 走一個路徑點。

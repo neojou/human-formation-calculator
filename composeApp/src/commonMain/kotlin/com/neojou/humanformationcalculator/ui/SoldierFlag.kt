@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.neojou.humanformationcalculator.core.Bit
 
@@ -32,6 +33,7 @@ fun SoldierFlag(
     bit: Bit?,
     caption: String,
     highlighted: Boolean = false,
+    diameter: Dp = 28.dp,
     modifier: Modifier = Modifier,
 ) {
     val fill = when (bit) {
@@ -50,7 +52,7 @@ fun SoldierFlag(
     ) {
         Box(
             modifier = Modifier
-                .size(28.dp)
+                .size(diameter)
                 .border(
                     width = if (highlighted) 3.dp else 1.dp,
                     color = if (highlighted) FlagActive else FlagBorder,

@@ -3,6 +3,7 @@ package com.neojou.humanformationcalculator.core
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -16,7 +17,7 @@ class Add4BitTest {
         assertEquals(listOf(Bit.ONE, Bit.ZERO, Bit.ONE, Bit.ZERO), machine.b.toList())
         machine.runToHalt()
         assertEquals(12, machine.sum.toInt())
-        assertEquals(Bit.ZERO, machine.cout)
+        assertEquals(Bit.ZERO, machine.highCout)
         assertEquals(MachinePhase.Halted, machine.phase)
     }
 
@@ -26,7 +27,7 @@ class Add4BitTest {
         machine.load(15, 1)
         machine.runToHalt()
         assertEquals(0, machine.sum.toInt())
-        assertEquals(Bit.ONE, machine.cout)
+        assertEquals(Bit.ONE, machine.highCout)
     }
 
     @Test
@@ -38,9 +39,22 @@ class Add4BitTest {
                 machine.runToHalt()
                 val total = a + b
                 assertEquals(total and 0xF, machine.sum.toInt(), "$a + $b sum")
-                assertEquals(if (total >= 16) Bit.ONE else Bit.ZERO, machine.cout, "$a + $b cout")
+                assertEquals(
+                    if (total >= 16) Bit.ONE else Bit.ZERO,
+                    machine.highCout,
+                    "$a + $b cout",
+                )
             }
         }
+    }
+
+    @Test
+    fun oneTickIsNotTheWholeAdd() {
+        val machine = FormationMachine()
+        machine.load(7, 5)
+        assertTrue(machine.step())
+        assertNotEquals(MachinePhase.Halted, machine.phase)
+        assertEquals(0, machine.sum.toInt())
     }
 
     @Test

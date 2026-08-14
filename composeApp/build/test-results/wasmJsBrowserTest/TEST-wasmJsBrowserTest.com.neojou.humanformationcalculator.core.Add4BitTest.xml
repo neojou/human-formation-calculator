@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="wasmJsBrowserTest.com.neojou.humanformationcalculator.core.Add4BitTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-08-14T17:51:20.197Z" hostname="NeodeMacBook-Pro.local" time="0.007">
+  <properties/>
+  <testcase name="sevenPlusFive[wasmJs, browser, ChromeHeadless151.0.0.0, MacOS10.15.7]" classname="wasmJsBrowserTest.com.neojou.humanformationcalculator.core.Add4BitTest" time="0.001"/>
+  <testcase name="overflowCarry[wasmJs, browser, ChromeHeadless151.0.0.0, MacOS10.15.7]" classname="wasmJsBrowserTest.com.neojou.humanformationcalculator.core.Add4BitTest" time="0.0"/>
+  <testcase name="allPairsMatchIntegerAdd[wasmJs, browser, ChromeHeadless151.0.0.0, MacOS10.15.7]" classname="wasmJsBrowserTest.com.neojou.humanformationcalculator.core.Add4BitTest" time="0.0"/>
+  <testcase name="oneTickIsNotTheWholeAdd[wasmJs, browser, ChromeHeadless151.0.0.0, MacOS10.15.7]" classname="wasmJsBrowserTest.com.neojou.humanformationcalculator.core.Add4BitTest" time="0.0"/>
+  <testcase name="stepThenHaltDoesNotRun[wasmJs, browser, ChromeHeadless151.0.0.0, MacOS10.15.7]" classname="wasmJsBrowserTest.com.neojou.humanformationcalculator.core.Add4BitTest" time="0.0"/>
+  <testcase name="parseNibbleRules[wasmJs, browser, ChromeHeadless151.0.0.0, MacOS10.15.7]" classname="wasmJsBrowserTest.com.neojou.humanformationcalculator.core.Add4BitTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,120 +1,102 @@
 package com.neojou.humanformationcalculator.core
 
-import com.neojou.humanformationcalculator.core.programs.buildAdd4BitProgram
-
-enum class MachinePhase {
-    Idle,
-    Loaded,
-    Running,
-    Halted,
-}
-
-data class MachineSnapshot(
-    val a: List<Bit>,
-    val b: List<Bit>,
-    val sum: List<Bit>,
-    val aValue: Int,
-    val bValue: Int,
-    val sumValue: Int,
-    val cin: Bit,
-    val cout: Bit,
-    val temp1: Bit,
-    val carry1: Bit,
-    val carry2: Bit,
-    val xor: GateSnapshot,
-    val and: GateSnapshot,
-    val or: GateSnapshot,
-    val not: GateSnapshot,
-    val pc: Int,
-    val highlightIndex: Int,
-    val program: List<String>,
-    val phase: MachinePhase,
-    val lastMessage: String,
-    val activeGate: GateKind?,
+data class AdderState(
+    var a: Bit = Bit.ZERO,
+    var b: Bit = Bit.ZERO,
+    var cin: Bit = Bit.ZERO,
+    var temp1: Bit = Bit.ZERO,
+    var carry1: Bit = Bit.ZERO,
+    var carry2: Bit = Bit.ZERO,
+    var sum: Bit = Bit.ZERO,
+    var cout: Bit = Bit.ZERO,
 )
 
+private class CavalryUnit(
+    val kind: CavalryKind,
+    val bitIndex: Int,
+    var flag: Bit,
+    var path: List<Vec2>,
+    var pathIndex: Int,
+    var riding: Boolean,
+    var lastDelivered: Bit = Bit.ZERO,
+) {
+    val x: Float get() = path[pathIndex.coerceIn(path.indices)].x
+    val y: Float get() = path[pathIndex.coerceIn(path.indices)].y
+}
+
 /**
- * Software von Neumann machine: one micro-op per [step].
+ * Spatial human-formation adder: one [step] is one tick for every soldier and cavalry.
  */
 class FormationMachine {
     val a = Register("A", 4)
     val b = Register("B", 4)
     val sum = Register("Sum", 4)
+    val adders = Array(4) { AdderState() }
 
-    var cin: Bit = Bit.ZERO
-        private set
-    var cout: Bit = Bit.ZERO
-        private set
-    var temp1: Bit = Bit.ZERO
-        private set
-    var carry1: Bit = Bit.ZERO
-        private set
-    var carry2: Bit = Bit.ZERO
-        private set
-
-    val xor = LogicGate(GateKind.XOR)
-    val and = LogicGate(GateKind.AND)
-    val or = LogicGate(GateKind.OR)
-    val not = LogicGate(GateKind.NOT)
-
-    var program: List<MicroOp> = emptyList()
-        private set
-    var pc: Int = 0
-        private set
     var phase: MachinePhase = MachinePhase.Idle
         private set
     var lastMessage: String = ""
         private set
-    var activeGate: GateKind? = null
+    var tick: Int = 0
         private set
+
+    val highCout: Bit get() = adders[3].cout
+
+    private val cavalry = mutableListOf<CavalryUnit>()
+    private val deliveredA = BooleanArray(4)
+    private val deliveredB = BooleanArray(4)
+    private val changedIds = mutableSetOf<String>()
 
     fun load(aValue: Int, bValue: Int) {
         require(aValue in 0..15 && bValue in 0..15)
         resetFields()
         a.load(aValue)
         b.load(bValue)
-        program = buildAdd4BitProgram()
-        pc = 0
+        for (i in 0..3) {
+            cavalry += CavalryUnit(
+                kind = CavalryKind.FETCH_A,
+                bitIndex = i,
+                flag = a.get(i),
+                path = FieldLayout.fetchAPath(i),
+                pathIndex = 0,
+                riding = true,
+            )
+            cavalry += CavalryUnit(
+                kind = CavalryKind.FETCH_B,
+                bitIndex = i,
+                flag = b.get(i),
+                path = FieldLayout.fetchBPath(i),
+                pathIndex = 0,
+                riding = true,
+            )
+            cavalry += CavalryUnit(
+                kind = CavalryKind.WRITE_SUM,
+                bitIndex = i,
+                flag = Bit.ZERO,
+                path = FieldLayout.writeSumPath(i),
+                pathIndex = 0,
+                riding = false,
+                lastDelivered = Bit.ZERO,
+            )
+        }
         phase = MachinePhase.Loaded
-        lastMessage = "載入 A=$aValue  B=$bValue"
-        activeGate = null
+        lastMessage = "載入 A=$aValue  B=$bValue。全場白旗，騎兵準備送 A／B。"
     }
 
     /**
-     * Execute one micro-op. Returns false when nothing more can run.
+     * One tick. Returns false when the formation is idle or already finished.
      */
     fun step(): Boolean {
-        if (phase == MachinePhase.Idle || program.isEmpty()) return false
-        if (phase == MachinePhase.Halted) return false
-        if (pc !in program.indices) {
-            phase = MachinePhase.Halted
+        if (phase == MachinePhase.Idle || phase == MachinePhase.Halted) return false
+        if (isQuiet()) {
+            finish()
             return false
         }
-
-        val op = program[pc]
-        when (op) {
-            is MicroOp.Move -> {
-                write(op.to, read(op.from))
-                activeGate = gateKindOf(op.to) ?: gateKindOf(op.from)
-                pc += 1
-                phase = MachinePhase.Running
-                lastMessage = op.label
-            }
-            is MicroOp.Eval -> {
-                val result = gate(op.kind).evaluate()
-                write(op.dest, result)
-                activeGate = op.kind
-                pc += 1
-                phase = MachinePhase.Running
-                lastMessage = op.label
-            }
-            is MicroOp.Halt -> {
-                activeGate = null
-                phase = MachinePhase.Halted
-                lastMessage = "完成  ${a.toInt()} + ${b.toInt()} = ${sum.toInt()}" +
-                    if (cout.isOne) "  （Cout=1）" else ""
-                return false
-            }
+        tickOnce()
+        phase = MachinePhase.Running
+        lastMessage = "tick $tick"
+        if (isQuiet()) {
+            finish()
         }
         return true
     }
@@ -128,104 +110,208 @@ class FormationMachine {
 
     fun reset() {
         resetFields()
-        program = emptyList()
         phase = MachinePhase.Idle
         lastMessage = ""
-        activeGate = null
     }
 
     fun snapshot(): MachineSnapshot {
-        val highlight = when (phase) {
-            MachinePhase.Idle -> -1
-            MachinePhase.Loaded -> 0
-            MachinePhase.Running -> (pc - 1).coerceAtLeast(0)
-            MachinePhase.Halted -> program.indexOfFirst { it is MicroOp.Halt }.takeIf { it >= 0 } ?: (pc)
+        val soldiers = mutableListOf<SoldierView>()
+        val groups = mutableListOf<GateGroupView>()
+        for (i in 0..3) {
+            val ad = adders[i]
+            soldiers += soldier("dataA$i", "A[$i]", a.get(i), FieldLayout.dataA(i))
+            soldiers += soldier("dataB$i", "B[$i]", b.get(i), FieldLayout.dataB(i))
+            soldiers += soldier("dataS$i", "S[$i]", sum.get(i), FieldLayout.dataSum(i))
+            soldiers += soldier("a$i", "A", ad.a, FieldLayout.adderA(i))
+            soldiers += soldier("b$i", "B", ad.b, FieldLayout.adderB(i))
+            soldiers += soldier("cin$i", "Cin", ad.cin, FieldLayout.cin(i))
+            soldiers += soldier("t1$i", "Temp1", ad.temp1, FieldLayout.temp1(i))
+            soldiers += soldier("c1$i", "Carry1", ad.carry1, FieldLayout.carry1(i))
+            soldiers += soldier("c2$i", "Carry2", ad.carry2, FieldLayout.carry2(i))
+            soldiers += soldier("cout$i", "Cout", ad.cout, FieldLayout.cout(i))
+            soldiers += soldier("sum$i", "Sum", ad.sum, FieldLayout.adderSum(i))
+            groups += group(GateKind.XOR, i, "XOR", FieldLayout.adderA(i), FieldLayout.adderB(i), FieldLayout.temp1(i))
+            groups += group(GateKind.AND, i, "AND", FieldLayout.adderA(i), FieldLayout.adderB(i), FieldLayout.carry1(i))
+            groups += group(GateKind.XOR, i, "XOR", FieldLayout.temp1(i), FieldLayout.cin(i), FieldLayout.adderSum(i))
+            groups += group(GateKind.AND, i, "AND", FieldLayout.temp1(i), FieldLayout.cin(i), FieldLayout.carry2(i))
+            groups += group(GateKind.OR, i, "OR", FieldLayout.carry1(i), FieldLayout.carry2(i), FieldLayout.cout(i))
         }
+        val cavViews = cavalry.map { c ->
+            CavalryView(
+                id = "${c.kind.name}${c.bitIndex}",
+                kind = c.kind,
+                bitIndex = c.bitIndex,
+                flag = c.flag,
+                x = c.x,
+                y = c.y,
+                riding = c.riding,
+                label = when (c.kind) {
+                    CavalryKind.FETCH_A -> "騎A"
+                    CavalryKind.FETCH_B -> "騎B"
+                    CavalryKind.WRITE_SUM -> "騎S"
+                },
+            )
+        }.filter { it.riding || it.kind == CavalryKind.WRITE_SUM }
         return MachineSnapshot(
-            a = a.toList(),
-            b = b.toList(),
-            sum = sum.toList(),
+            soldiers = soldiers,
+            cavalry = cavViews,
+            groups = groups,
+            dataA = a.toList(),
+            dataB = b.toList(),
+            dataSum = sum.toList(),
             aValue = a.toInt(),
             bValue = b.toInt(),
             sumValue = sum.toInt(),
-            cin = cin,
-            cout = cout,
-            temp1 = temp1,
-            carry1 = carry1,
-            carry2 = carry2,
-            xor = xor.snapshot(),
-            and = and.snapshot(),
-            or = or.snapshot(),
-            not = not.snapshot(),
-            pc = pc,
-            highlightIndex = highlight,
-            program = program.map { it.label },
+            highCout = highCout,
+            tick = tick,
             phase = phase,
             lastMessage = lastMessage,
-            activeGate = activeGate,
         )
+    }
+
+    private fun tickOnce() {
+        val prev = Array(4) { i -> adders[i].copy() }
+        changedIds.clear()
+
+        for (i in 0..3) {
+            val p = prev[i]
+            val nextCin = if (i == 0) Bit.ZERO else prev[i - 1].cout
+            val nextTemp1 = Logic.xor(p.a, p.b)
+            val nextCarry1 = Logic.and(p.a, p.b)
+            val nextSum = Logic.xor(p.temp1, p.cin)
+            val nextCarry2 = Logic.and(p.temp1, p.cin)
+            val nextCout = Logic.or(p.carry1, p.carry2)
+            val ad = adders[i]
+            noteChange("a$i", ad.a, p.a)
+            noteChange("b$i", ad.b, p.b)
+            if (ad.cin != nextCin) changedIds += "cin$i"
+            if (ad.temp1 != nextTemp1) changedIds += "t1$i"
+            if (ad.carry1 != nextCarry1) changedIds += "c1$i"
+            if (ad.carry2 != nextCarry2) changedIds += "c2$i"
+            if (ad.sum != nextSum) changedIds += "sum$i"
+            if (ad.cout != nextCout) changedIds += "cout$i"
+            ad.cin = nextCin
+            ad.temp1 = nextTemp1
+            ad.carry1 = nextCarry1
+            ad.carry2 = nextCarry2
+            ad.sum = nextSum
+            ad.cout = nextCout
+        }
+
+        for (c in cavalry) {
+            if (c.kind == CavalryKind.WRITE_SUM && !c.riding && adders[c.bitIndex].sum != c.lastDelivered) {
+                c.flag = adders[c.bitIndex].sum
+                c.path = FieldLayout.writeSumPath(c.bitIndex)
+                c.pathIndex = 0
+                c.riding = true
+            }
+            if (c.riding) {
+                advanceCavalry(c)
+            }
+        }
+        tick += 1
+    }
+
+    private fun advanceCavalry(c: CavalryUnit) {
+        if (c.pathIndex >= c.path.lastIndex) {
+            c.riding = false
+            return
+        }
+        c.pathIndex += 1
+        val atEnd = c.pathIndex == c.path.lastIndex
+        val atWrite = c.kind == CavalryKind.WRITE_SUM && c.pathIndex == 2
+        when (c.kind) {
+            CavalryKind.FETCH_A -> if (atEnd) {
+                adders[c.bitIndex].a = c.flag
+                deliveredA[c.bitIndex] = true
+                changedIds += "a${c.bitIndex}"
+                c.riding = false
+            }
+            CavalryKind.FETCH_B -> if (atEnd) {
+                adders[c.bitIndex].b = c.flag
+                deliveredB[c.bitIndex] = true
+                changedIds += "b${c.bitIndex}"
+                c.riding = false
+            }
+            CavalryKind.WRITE_SUM -> {
+                if (atWrite) {
+                    val before = sum.get(c.bitIndex)
+                    sum.set(c.bitIndex, c.flag)
+                    c.lastDelivered = c.flag
+                    if (before != c.flag) changedIds += "dataS${c.bitIndex}"
+                }
+                if (atEnd) c.riding = false
+            }
+        }
+    }
+
+    private fun isQuiet(): Boolean {
+        if (cavalry.any { it.riding }) return false
+        if (deliveredA.any { !it } || deliveredB.any { !it }) return false
+        if (cavalry.filter { it.kind == CavalryKind.WRITE_SUM }
+                .any { it.lastDelivered != adders[it.bitIndex].sum }
+        ) {
+            return false
+        }
+        return !wouldComputeChange()
+    }
+
+    private fun wouldComputeChange(): Boolean {
+        for (i in 0..3) {
+            val ad = adders[i]
+            val nextCin = if (i == 0) Bit.ZERO else adders[i - 1].cout
+            if (nextCin != ad.cin) return true
+            if (Logic.xor(ad.a, ad.b) != ad.temp1) return true
+            if (Logic.and(ad.a, ad.b) != ad.carry1) return true
+            if (Logic.xor(ad.temp1, ad.cin) != ad.sum) return true
+            if (Logic.and(ad.temp1, ad.cin) != ad.carry2) return true
+            if (Logic.or(ad.carry1, ad.carry2) != ad.cout) return true
+        }
+        return false
+    }
+
+    private fun finish() {
+        phase = MachinePhase.Halted
+        val carry = if (highCout.isOne) "  （Cout=1）" else ""
+        lastMessage = "完成  ${a.toInt()} + ${b.toInt()} = ${sum.toInt()}$carry  ·  $tick ticks"
     }
 
     private fun resetFields() {
         a.clear()
         b.clear()
         sum.clear()
-        cin = Bit.ZERO
-        cout = Bit.ZERO
-        temp1 = Bit.ZERO
-        carry1 = Bit.ZERO
-        carry2 = Bit.ZERO
-        xor.clear()
-        and.clear()
-        or.clear()
-        not.clear()
-        pc = 0
-    }
-
-    private fun gate(kind: GateKind): LogicGate = when (kind) {
-        GateKind.XOR -> xor
-        GateKind.AND -> and
-        GateKind.OR -> or
-        GateKind.NOT -> not
-    }
-
-    private fun register(id: RegId): Register = when (id) {
-        RegId.A -> a
-        RegId.B -> b
-        RegId.SUM -> sum
-    }
-
-    private fun read(loc: BitLoc): Bit = when (loc) {
-        is BitLoc.RegBit -> register(loc.reg).get(loc.index)
-        BitLoc.Cin -> cin
-        BitLoc.Cout -> cout
-        BitLoc.Temp1 -> temp1
-        BitLoc.Carry1 -> carry1
-        BitLoc.Carry2 -> carry2
-        is BitLoc.GateIn -> {
-            val g = gate(loc.kind)
-            val bit = if (loc.port == 0) g.in1 else g.in2
-            requireNotNull(bit) { "read empty ${loc.describe()}" }
+        for (i in 0..3) {
+            adders[i] = AdderState()
+            deliveredA[i] = false
+            deliveredB[i] = false
         }
-        is BitLoc.GateOut -> requireNotNull(gate(loc.kind).out) { "read empty ${loc.describe()}" }
+        cavalry.clear()
+        changedIds.clear()
+        tick = 0
     }
 
-    private fun write(loc: BitLoc, bit: Bit) {
-        when (loc) {
-            is BitLoc.RegBit -> register(loc.reg).set(loc.index, bit)
-            BitLoc.Cin -> cin = bit
-            BitLoc.Cout -> cout = bit
-            BitLoc.Temp1 -> temp1 = bit
-            BitLoc.Carry1 -> carry1 = bit
-            BitLoc.Carry2 -> carry2 = bit
-            is BitLoc.GateIn -> gate(loc.kind).setInput(loc.port, bit)
-            is BitLoc.GateOut -> error("cannot write gate output directly")
-        }
+    private fun noteChange(id: String, now: Bit, then: Bit) {
+        if (now != then) changedIds += id
     }
 
-    private fun gateKindOf(loc: BitLoc): GateKind? = when (loc) {
-        is BitLoc.GateIn -> loc.kind
-        is BitLoc.GateOut -> loc.kind
-        else -> null
+    private fun soldier(id: String, label: String, bit: Bit, pos: Vec2) =
+        SoldierView(id, label, bit, pos.x, pos.y, changed = id in changedIds)
+
+    private fun group(kind: GateKind, bit: Int, label: String, vararg pts: Vec2): GateGroupView {
+        val minX = pts.minOf { it.x }
+        val maxX = pts.maxOf { it.x }
+        val minY = pts.minOf { it.y }
+        val maxY = pts.maxOf { it.y }
+        val padX = 0.028f
+        val padY = 0.045f
+        return GateGroupView(
+            kind = kind,
+            bitIndex = bit,
+            cx = (minX + maxX) / 2f,
+            cy = (minY + maxY) / 2f,
+            rx = (maxX - minX) / 2f + padX,
+            ry = (maxY - minY) / 2f + padY,
+            label = label,
+        )
     }
 }
