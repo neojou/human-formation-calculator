@@ -5,11 +5,10 @@ This is a Kotlin Multiplatform (Compose Multiplatform) educational visualization
 
 Goal: Visually simulate how a computer works using soldiers raising black/white flags (0/1) and cavalry delivering data. The first demo is a 4-bit ripple-carry adder laid out as four 1-bit full-adders in space.
 
-## Current Status (v0.3)
-- Spatial parallel model (no microcode): one Step = one tick for every soldier and cavalry
-- Layout: A/B data on top, four full-adders in the middle, Sum data at the bottom
-- Cavalry carry A/B into each adder and write Sum back to the data row
-- Gate soldiers watch inputs every tick (XOR / AND / OR groups)
+## Current Status (v0.4)
+- Spatial parallel 4-bit adder is playable
+- Q-style Qin soldier / cavalry sprites raise black (1) or white (0) flags
+- Operation soldiers show chest marks: A = AND, O = OR, X = XOR
 
 ## Core Design Principles
 1. **Spatial hardware parallelism** as in the novel — not a von Neumann micro-program.
@@ -36,5 +35,5 @@ Goal: Visually simulate how a computer works using soldiers raising black/white 
 - Cavalry move along discrete waypoints (one hop per tick)
 
 ## Next Priorities
-1. Keep the 4-bit adder playable and readable
-2. Optional later: smoother cavalry interpolation, more operations
+1. Optional: smoother cavalry path interpolation between ticks
+2. Optional: more operations beyond 4-bit add

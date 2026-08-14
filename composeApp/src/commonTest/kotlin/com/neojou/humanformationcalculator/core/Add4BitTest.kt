@@ -49,6 +49,17 @@ class Add4BitTest {
     }
 
     @Test
+    fun cavalryDeliversEachBitToMatchingAdder() {
+        val machine = FormationMachine()
+        machine.load(10, 5)
+        machine.runToHalt()
+        for (i in 0..3) {
+            assertEquals(machine.a.get(i), machine.adders[i].a, "A[$i]")
+            assertEquals(machine.b.get(i), machine.adders[i].b, "B[$i]")
+        }
+    }
+
+    @Test
     fun oneTickIsNotTheWholeAdd() {
         val machine = FormationMachine()
         machine.load(7, 5)

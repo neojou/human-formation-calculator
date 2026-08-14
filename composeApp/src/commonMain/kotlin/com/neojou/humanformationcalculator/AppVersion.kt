@@ -19,13 +19,13 @@ object AppVersion {
 
     /**
      * Marketing / product version string (no leading `v`).
-     * Current release: **0.3**
+     * Current release: **0.4**
      */
-    const val NAME: String = "0.3"
+    const val NAME: String = "0.4"
 
-    /** User-visible label, e.g. `v0.3`. */
+    /** User-visible label, e.g. `v0.4`. */
     const val DISPLAY: String = "v$NAME"
 
     /** One-line blurb for About. */
-    const val SUMMARY: String = "人列四位元全加器（空間並行）"
+    const val SUMMARY: String = "Q 版人列士兵舉旗加法"
 }

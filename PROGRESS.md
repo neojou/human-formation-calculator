@@ -1,21 +1,18 @@
-# Progress — Human-Formation Calculator v0.3
+# Progress — Human-Formation Calculator v0.4
 
 ## 目前狀態
 
-**空間並行人列加法已可玩。** Desktop / Wasm 編譯通過；`desktopTest`（含 16×16 與「單 tick 不會做完全部」）通過。
+**Q 版舉旗畫面已可玩。** 士兵／騎兵依 bit 舉黑或白旗；運算士兵胸口 A=AND、O=OR、X=XOR。Desktop 編譯與 `desktopTest` 通過。
 
 ## 已完成
 
-- [x] 依手稿重寫 `DESIGN.md` / `AGENTS.md`
-- [x] 拿掉微指令機（`MicroOp`、左欄指令列表、共用單一 XOR/AND/OR）
-- [x] 四個 1-bit full-adder 橫向串接；每 tick 全體並行
-- [x] 騎兵送 A／B、Sum 變色後抄回下方資料區再回來待命
-- [x] Cin 看右邊 adder 的 Cout；bit0 Cin 固定白旗
-- [x] 畫面：上 A/B、中運算、下 Sum；Step / Play / Pause
+- [x] v0.3 空間並行四全加器
+- [x] Q 版秦俑士兵、騎兵（白旗／黑旗）去背精靈圖
+- [x] 運算士兵胸口字母；變色／騎行時金框提示
 
 ## 下一步（非本版）
 
-- 騎兵路徑做連續插值
+- 騎兵路徑連續插值
 - 加減以外的運算陣
 
 ## 怎麼測
@@ -24,12 +21,11 @@
 ./gradlew :composeApp:run
 ```
 
-1. 預設 7 與 5，按「開始」→ 上方 A/B 舉旗，運算區仍是白旗，騎兵出發
-2. Step：每步所有人動一次；門組橢圓內三個士兵會一起變
-3. Play 跑完 → 下方 Sum=12
-4. 15+1 → Sum=0、Cout=1
+1. 開始後上方 A/B 士兵舉對應旗，騎兵騎馬把旗色送進各 adder
+2. Temp1／Sum 胸口是 **X**，Carry1／Carry2 是 **A**，Cout 是 **O**
+3. Play 跑完 7+5 → 下方 Sum=12
 
 ## 問題與決策
 
-- 同一 tick 先看舊旗再一起改，進位會一格一格漣波上去。
-- 騎兵每 tick 走一個路徑點。
+- 胸口字母用 Compose 疊在胸甲上，避免生成圖把 A/O/X 畫錯。
+- 原先規劃的下一步是騎兵插值與其他運算；依你這次要求先把畫面做好看。

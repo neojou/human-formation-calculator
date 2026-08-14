@@ -16,29 +16,44 @@ object FieldLayout {
         return Vec2(x, y)
     }
 
-    fun dataA(bit: Int) = Vec2(colLeft(bit) + 0.055f, 0.065f)
-    fun dataB(bit: Int) = Vec2(colLeft(bit) + 0.155f, 0.065f)
+    /**
+     * Top data: A[3..0] clustered on the left, B[3..0] on the right
+     * (MSB left, matching how the nibble is read).
+     */
+    fun dataA(bit: Int) = Vec2(0.055f + (3 - bit) * 0.088f, 0.068f)
+
+    fun dataB(bit: Int) = Vec2(0.605f + (3 - bit) * 0.088f, 0.068f)
+
     fun dataSum(bit: Int) = Vec2(colLeft(bit) + 0.155f, 0.935f)
 
-    fun adderA(bit: Int) = local(bit, 0.40f, 0.12f)
-    fun adderB(bit: Int) = local(bit, 0.58f, 0.12f)
-    fun carry1(bit: Int) = local(bit, 0.24f, 0.38f)
-    fun temp1(bit: Int) = local(bit, 0.62f, 0.38f)
-    fun cin(bit: Int) = local(bit, 0.88f, 0.40f)
-    fun cout(bit: Int) = local(bit, 0.08f, 0.64f)
-    fun carry2(bit: Int) = local(bit, 0.38f, 0.64f)
-    fun adderSum(bit: Int) = local(bit, 0.62f, 0.86f)
+    fun adderA(bit: Int) = local(bit, 0.34f, 0.10f)
+    fun adderB(bit: Int) = local(bit, 0.66f, 0.10f)
+    fun carry1(bit: Int) = local(bit, 0.20f, 0.38f)
+    fun temp1(bit: Int) = local(bit, 0.58f, 0.38f)
+    fun cin(bit: Int) = local(bit, 0.88f, 0.42f)
+    fun cout(bit: Int) = local(bit, 0.10f, 0.66f)
+    fun carry2(bit: Int) = local(bit, 0.40f, 0.66f)
+    fun adderSum(bit: Int) = local(bit, 0.62f, 0.88f)
 
+    /**
+     * A riders drop, then slide on the upper lane (y≈0.12) into the adder column.
+     * B riders use a slightly lower lane (y≈0.16) so crossing traffic does not
+     * share a waypoint. Each rider still only writes [adderA]/[adderB] of its bit.
+     */
     fun fetchAPath(bit: Int): List<Vec2> {
         val from = dataA(bit)
         val to = adderA(bit)
-        return listOf(from, Vec2(from.x, (from.y + to.y) / 2f), to)
+        val drop = Vec2(from.x, 0.118f)
+        val approach = Vec2(to.x, 0.128f)
+        return listOf(from, drop, approach, to)
     }
 
     fun fetchBPath(bit: Int): List<Vec2> {
         val from = dataB(bit)
         val to = adderB(bit)
-        return listOf(from, Vec2(from.x, (from.y + to.y) / 2f), to)
+        val drop = Vec2(from.x, 0.155f)
+        val approach = Vec2(to.x, 0.165f)
+        return listOf(from, drop, approach, to)
     }
 
     fun writeSumPath(bit: Int): List<Vec2> {

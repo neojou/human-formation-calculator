@@ -7,13 +7,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -22,12 +18,9 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.neojou.humanformationcalculator.core.CavalryKind
-import com.neojou.humanformationcalculator.core.CavalryView
 import com.neojou.humanformationcalculator.core.FieldLayout
 import com.neojou.humanformationcalculator.core.GateKind
 import com.neojou.humanformationcalculator.core.MachineSnapshot
-import com.neojou.humanformationcalculator.core.SoldierView
 
 private val Paper = Color(0xFFF7F3EA)
 private val Grid = Color(0x14000000)
@@ -89,13 +82,22 @@ fun FormationField(
         }
 
         Text(
-            text = "資料區 A / B    A=${snapshot.aValue}  B=${snapshot.bValue}",
+            text = "資料區 A    A=${snapshot.aValue}",
             modifier = Modifier.offset(x = 10.dp, y = 4.dp),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.SemiBold,
         )
         Text(
-            text = "人列運算區（四個 1-bit full-adder）  黑旗=1  白旗=0",
+            text = "資料區 B    B=${snapshot.bValue}",
+            modifier = Modifier.offset(
+                x = with(density) { (w.toPx() * 0.58f).toDp() },
+                y = 4.dp,
+            ),
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.SemiBold,
+        )
+        Text(
+            text = "人列運算區（四個 1-bit full-adder）  黑旗=1  白旗=0  胸口 A=AND  O=OR  X=XOR",
             modifier = Modifier.offset(
                 x = 10.dp,
                 y = with(density) { (h.toPx() * 0.145f).toDp() },
@@ -148,63 +150,23 @@ fun FormationField(
         snapshot.soldiers.forEach { s ->
             Box(
                 modifier = Modifier.offset(
-                    x = with(density) { (w.toPx() * s.x).toDp() - 20.dp },
-                    y = with(density) { (h.toPx() * s.y).toDp() - 16.dp },
+                    x = with(density) { (w.toPx() * s.x).toDp() - 22.dp },
+                    y = with(density) { (h.toPx() * s.y).toDp() - 30.dp },
                 ),
             ) {
-                SoldierFlag(
-                    bit = s.bit,
-                    caption = s.label,
-                    highlighted = s.changed,
-                    diameter = 22.dp,
-                )
+                FormationSoldier(soldier = s, height = 54.dp)
             }
         }
 
         snapshot.cavalry.forEach { c ->
             Box(
                 modifier = Modifier.offset(
-                    x = with(density) { (w.toPx() * c.x).toDp() - 16.dp },
-                    y = with(density) { (h.toPx() * c.y).toDp() - 16.dp },
+                    x = with(density) { (w.toPx() * c.x).toDp() - 28.dp },
+                    y = with(density) { (h.toPx() * c.y).toDp() - 36.dp },
                 ),
             ) {
-                CavalryMarker(c)
+                FormationCavalry(cavalry = c, height = 62.dp)
             }
         }
-    }
-}
-
-@Composable
-private fun CavalryMarker(cavalry: CavalryView) {
-    val body = when (cavalry.kind) {
-        CavalryKind.FETCH_A -> Color(0xFF6D4C41)
-        CavalryKind.FETCH_B -> Color(0xFF5D4037)
-        CavalryKind.WRITE_SUM -> Color(0xFF37474F)
-    }
-    val flag = if (cavalry.flag.isOne) Color(0xFF1B1B1B) else Color(0xFFF4F1E8)
-    Box(
-        modifier = Modifier
-            .size(32.dp)
-            .background(body, RoundedCornerShape(8.dp))
-            .border(
-                width = if (cavalry.riding) 2.dp else 1.dp,
-                color = if (cavalry.riding) Color(0xFFFFC107) else Color(0xFF212121),
-                shape = RoundedCornerShape(8.dp),
-            ),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = cavalry.label,
-            color = Color.White,
-            style = MaterialTheme.typography.labelSmall,
-            fontWeight = FontWeight.Bold,
-        )
-        Box(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .size(10.dp)
-                .border(1.dp, Color.White, CircleShape)
-                .background(flag, CircleShape),
-        )
     }
 }

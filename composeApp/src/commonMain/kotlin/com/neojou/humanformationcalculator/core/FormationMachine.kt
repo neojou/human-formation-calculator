@@ -119,17 +119,17 @@ class FormationMachine {
         val groups = mutableListOf<GateGroupView>()
         for (i in 0..3) {
             val ad = adders[i]
-            soldiers += soldier("dataA$i", "A[$i]", a.get(i), FieldLayout.dataA(i))
-            soldiers += soldier("dataB$i", "B[$i]", b.get(i), FieldLayout.dataB(i))
-            soldiers += soldier("dataS$i", "S[$i]", sum.get(i), FieldLayout.dataSum(i))
-            soldiers += soldier("a$i", "A", ad.a, FieldLayout.adderA(i))
-            soldiers += soldier("b$i", "B", ad.b, FieldLayout.adderB(i))
-            soldiers += soldier("cin$i", "Cin", ad.cin, FieldLayout.cin(i))
-            soldiers += soldier("t1$i", "Temp1", ad.temp1, FieldLayout.temp1(i))
-            soldiers += soldier("c1$i", "Carry1", ad.carry1, FieldLayout.carry1(i))
-            soldiers += soldier("c2$i", "Carry2", ad.carry2, FieldLayout.carry2(i))
-            soldiers += soldier("cout$i", "Cout", ad.cout, FieldLayout.cout(i))
-            soldiers += soldier("sum$i", "Sum", ad.sum, FieldLayout.adderSum(i))
+            soldiers += soldier("dataA$i", "A[$i]", a.get(i), FieldLayout.dataA(i), SoldierRole.DATA)
+            soldiers += soldier("dataB$i", "B[$i]", b.get(i), FieldLayout.dataB(i), SoldierRole.DATA)
+            soldiers += soldier("dataS$i", "S[$i]", sum.get(i), FieldLayout.dataSum(i), SoldierRole.DATA)
+            soldiers += soldier("a$i", "A", ad.a, FieldLayout.adderA(i), SoldierRole.INPUT)
+            soldiers += soldier("b$i", "B", ad.b, FieldLayout.adderB(i), SoldierRole.INPUT)
+            soldiers += soldier("cin$i", "Cin", ad.cin, FieldLayout.cin(i), SoldierRole.INPUT)
+            soldiers += soldier("t1$i", "Temp1", ad.temp1, FieldLayout.temp1(i), SoldierRole.XOR)
+            soldiers += soldier("c1$i", "Carry1", ad.carry1, FieldLayout.carry1(i), SoldierRole.AND)
+            soldiers += soldier("c2$i", "Carry2", ad.carry2, FieldLayout.carry2(i), SoldierRole.AND)
+            soldiers += soldier("cout$i", "Cout", ad.cout, FieldLayout.cout(i), SoldierRole.OR)
+            soldiers += soldier("sum$i", "Sum", ad.sum, FieldLayout.adderSum(i), SoldierRole.XOR)
             groups += group(GateKind.XOR, i, "XOR", FieldLayout.adderA(i), FieldLayout.adderB(i), FieldLayout.temp1(i))
             groups += group(GateKind.AND, i, "AND", FieldLayout.adderA(i), FieldLayout.adderB(i), FieldLayout.carry1(i))
             groups += group(GateKind.XOR, i, "XOR", FieldLayout.temp1(i), FieldLayout.cin(i), FieldLayout.adderSum(i))
@@ -294,8 +294,8 @@ class FormationMachine {
         if (now != then) changedIds += id
     }
 
-    private fun soldier(id: String, label: String, bit: Bit, pos: Vec2) =
-        SoldierView(id, label, bit, pos.x, pos.y, changed = id in changedIds)
+    private fun soldier(id: String, label: String, bit: Bit, pos: Vec2, role: SoldierRole) =
+        SoldierView(id, label, bit, pos.x, pos.y, changed = id in changedIds, role = role)
 
     private fun group(kind: GateKind, bit: Int, label: String, vararg pts: Vec2): GateGroupView {
         val minX = pts.minOf { it.x }

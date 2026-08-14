@@ -13,6 +13,24 @@ enum class CavalryKind {
     WRITE_SUM,
 }
 
+enum class SoldierRole {
+    DATA,
+    INPUT,
+    AND,
+    OR,
+    XOR,
+    ;
+
+    /** Chest mark on operation soldiers. */
+    val chestMark: String?
+        get() = when (this) {
+            AND -> "A"
+            OR -> "O"
+            XOR -> "X"
+            else -> null
+        }
+}
+
 data class SoldierView(
     val id: String,
     val label: String,
@@ -20,6 +38,7 @@ data class SoldierView(
     val x: Float,
     val y: Float,
     val changed: Boolean,
+    val role: SoldierRole,
 )
 
 data class CavalryView(
