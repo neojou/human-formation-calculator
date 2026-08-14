@@ -1,0 +1,12 @@
+abi_version=2.3.0
+builtins_platform=WASM
+compiler_version=2.3.0
+depends=kotlin com.neojou.humanformationcalculator\:composeApp components.resources\:library kotlin-test org.jetbrains.compose.material3\:material3 org.jetbrains.compose.material\:material-ripple org.jetbrains.compose.foundation\:foundation org.jetbrains.compose.animation\:animation org.jetbrains.compose.foundation\:foundation-layout org.jetbrains.compose.ui\:ui org.jetbrains.compose.runtime\:runtime-saveable org.jetbrains.androidx.savedstate\:savedstate-compose org.jetbrains.compose.runtime\:runtime androidx.compose.runtime\:runtime-saveable androidx.compose.runtime\:runtime-annotation androidx.compose.runtime\:runtime-retain org.jetbrains.androidx.savedstate\:savedstate androidx.savedstate\:savedstate androidx.savedstate\:savedstate-compose androidx.compose.runtime\:runtime org.jetbrains.kotlinx\:kotlinx-browser org.jetbrains.compose.animation\:animation-core org.jetbrains.androidx.lifecycle\:lifecycle-common androidx.lifecycle\:lifecycle-common org.jetbrains.kotlinx\:kotlinx-coroutines-core androidx.annotation\:annotation org.jetbrains.kotlinx\:kotlinx-serialization-core org.jetbrains.compose.ui\:ui-text org.jetbrains.compose.ui\:ui-graphics org.jetbrains.compose.ui\:ui-unit org.jetbrains.skiko\:skiko org.jetbrains.compose.ui\:ui-geometry org.jetbrains.compose.ui\:ui-util org.jetbrains.kotlinx\:atomicfu
+ir_signature_versions=1,2
+jsOutputName=HumanFormationCalculator-test
+language_features=+AllowAnyAsAnActualTypeForExpectInterface +JsAllowImplementingFunctionInterface +MultiPlatformProjects
+metadata_version=2.3.0
+serializedIrFileFingerprints=1kr5k7b4dbp5s.2vfn09igy2loi
+serializedKlibFingerprint=1nj1oznrthad6.fk2bbabgw3h4
+unique_name=com.neojou.humanformationcalculator\:composeApp_test
+wasm_targets=wasm-js

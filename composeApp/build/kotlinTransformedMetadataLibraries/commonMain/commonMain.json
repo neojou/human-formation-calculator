@@ -1,0 +1,217 @@
+[
+  {
+    "moduleId": "module org.jetbrains.kotlin:kotlin-stdlib:2.3.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.kotlin-kotlin-stdlib-2.3.0-commonMain-1ooqQQ.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.runtime:runtime:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.runtime-runtime-1.10.0-commonMain-y8wUOA.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.foundation:foundation:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.foundation-foundation-1.10.0-skikoMain-buy1Tw.klib",
+    "sourceSetName": "skikoMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.foundation:foundation:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.foundation-foundation-1.10.0-commonMain-buy1Tw.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.material3:material3:1.9.0-beta03",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.material3-material3-1.9.0-beta03-skikoMain-X3IdmA.klib",
+    "sourceSetName": "skikoMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.material3:material3:1.9.0-beta03",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.material3-material3-1.9.0-beta03-commonMain-X3IdmA.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.ui:ui:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.ui-ui-1.10.0-skikoMain-Ikk6iA.klib",
+    "sourceSetName": "skikoMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.ui:ui:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.ui-ui-1.10.0-commonMain-Ikk6iA.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.components:components-resources:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.components-components-resources-1.10.0-skikoMain-OSNkTw.klib",
+    "sourceSetName": "skikoMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.components:components-resources:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.components-components-resources-1.10.0-commonMain-OSNkTw.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module androidx.compose.runtime:runtime:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/androidx.compose.runtime-runtime-1.10.0-nonAndroidMain-jL1lig.klib",
+    "sourceSetName": "nonAndroidMain"
+  },
+  {
+    "moduleId": "module androidx.compose.runtime:runtime:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/androidx.compose.runtime-runtime-1.10.0-commonMain-jL1lig.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.animation:animation:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.animation-animation-1.10.0-nonAndroidMain-XCRBBA.klib",
+    "sourceSetName": "nonAndroidMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.animation:animation:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.animation-animation-1.10.0-commonMain-XCRBBA.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.foundation:foundation-layout:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.foundation-foundation-layout-1.10.0-skikoMain-pSMAXg.klib",
+    "sourceSetName": "skikoMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.foundation:foundation-layout:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.foundation-foundation-layout-1.10.0-commonMain-pSMAXg.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.ui:ui-text:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.ui-ui-text-1.10.0-skikoMain-kU2cPg.klib",
+    "sourceSetName": "skikoMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.ui:ui-text:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.ui-ui-text-1.10.0-commonMain-kU2cPg.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.ui:ui-util:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.ui-ui-util-1.10.0-commonMain-WTwl9g.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.skiko:skiko:0.9.37.3",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.skiko-skiko-0.9.37.3-commonMain-aAAseA.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.animation:animation-core:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.animation-animation-core-1.10.0-commonMain-Y18Qzg.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.material:material-ripple:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.material-material-ripple-1.10.0-nonAndroidMain-lNakwA.klib",
+    "sourceSetName": "nonAndroidMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.material:material-ripple:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.material-material-ripple-1.10.0-commonMain-lNakwA.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.ui:ui-graphics:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.ui-ui-graphics-1.10.0-skikoMain-DCwFSQ.klib",
+    "sourceSetName": "skikoMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.ui:ui-graphics:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.ui-ui-graphics-1.10.0-commonMain-DCwFSQ.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module androidx.compose.runtime:runtime-retain:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/androidx.compose.runtime-runtime-retain-1.10.0-commonMain-gAgqGg.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.androidx.lifecycle:lifecycle-common:2.9.6",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.androidx.lifecycle-lifecycle-common-2.9.6-commonMain-_EOCYQ.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.runtime:runtime-saveable:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.runtime-runtime-saveable-1.10.0-commonMain-uS-nIg.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.ui:ui-geometry:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.ui-ui-geometry-1.10.0-commonMain-qqJ-Hg.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.ui:ui-unit:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.ui-ui-unit-1.10.0-nonAndroidMain-JGR4Tw.klib",
+    "sourceSetName": "nonAndroidMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.compose.ui:ui-unit:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.compose.ui-ui-unit-1.10.0-commonMain-JGR4Tw.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.kotlinx-kotlinx-coroutines-core-1.9.0-commonMain-ENDfhw.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module androidx.compose.runtime:runtime-annotation:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/androidx.compose.runtime-runtime-annotation-1.10.0-commonMain-stVLwg.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module androidx.lifecycle:lifecycle-common:2.9.4",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/androidx.lifecycle-lifecycle-common-2.9.4-commonMain-2l5nFA.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module androidx.compose.runtime:runtime-saveable:1.10.0",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/androidx.compose.runtime-runtime-saveable-1.10.0-commonMain-2vxcdQ.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.androidx.savedstate:savedstate-compose:1.3.6",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.androidx.savedstate-savedstate-compose-1.3.6-commonMain-Fw7d1w.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module androidx.annotation:annotation:1.9.1",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/androidx.annotation-annotation-1.9.1-commonMain-WmoUwA.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module androidx.savedstate:savedstate-compose:1.3.3",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/androidx.savedstate-savedstate-compose-1.3.3-nonAndroidMain-9pLK_g.klib",
+    "sourceSetName": "nonAndroidMain"
+  },
+  {
+    "moduleId": "module androidx.savedstate:savedstate-compose:1.3.3",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/androidx.savedstate-savedstate-compose-1.3.3-commonMain-9pLK_g.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.androidx.savedstate:savedstate:1.3.6",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.androidx.savedstate-savedstate-1.3.6-commonMain-Gx5ULw.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module androidx.savedstate:savedstate:1.3.3",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/androidx.savedstate-savedstate-1.3.3-nonAndroidMain-NwmUsg.klib",
+    "sourceSetName": "nonAndroidMain"
+  },
+  {
+    "moduleId": "module androidx.savedstate:savedstate:1.3.3",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/androidx.savedstate-savedstate-1.3.3-commonMain-NwmUsg.klib",
+    "sourceSetName": "commonMain"
+  },
+  {
+    "moduleId": "module org.jetbrains.kotlinx:kotlinx-serialization-core:1.7.3",
+    "file": "/Users/neojou/Github/human-formation-calculator/composeApp/build/kotlinTransformedMetadataLibraries/commonMain/org.jetbrains.kotlinx-kotlinx-serialization-core-1.7.3-commonMain-s2qClw.klib",
+    "sourceSetName": "commonMain"
+  }
+]
